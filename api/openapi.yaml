@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: Receipt Processor API
+  description: API for processing receipts and calculating points
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+paths:
+  /receipts/process:
+    post:
+      summary: Process a receipt
+      description: Processes a receipt and returns a unique ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+      responses:
+        '200':
+          description: Receipt processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptResponse'
+        '400':
+          description: Invalid receipt data
+  /receipts/{id}/points:
+    get:
+      summary: Get points for a receipt
+      description: Returns the points awarded for a specific receipt
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The receipt ID
+      responses:
+        '200':
+          description: Points retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PointsResponse'
+        '404':
+          description: Receipt not found
+components:
+  schemas:
+    Receipt:
+      type: object
+      required:
+        - retailer
+        - purchaseDate
+        - purchaseTime
+        - items
+        - total
+      properties:
+        retailer:
+          type: string
+          description: The name of the retailer
+        purchaseDate:
+          type: string
+          format: date
+          description: The date of the purchase (YYYY-MM-DD)
+        purchaseTime:
+          type: string
+          format: time
+          description: The time of the purchase (HH:MM)
+        items:
+          type: array
+          description: The items purchased
+          items:
+            $ref: '#/components/schemas/Item'
+        total:
+          type: string
+          description: The total amount paid
+    Item:
+      type: object
+      required:
+        - shortDescription
+        - price
+      properties:
+        shortDescription:
+          type: string
+          description: A short description of the item
+        price:
+          type: string
+          description: The price of the item
+    ReceiptResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID for the receipt
+    PointsResponse:
+      type: object
+      properties:
+        points:
+          type: integer
+          description: The points awarded for the receipt
