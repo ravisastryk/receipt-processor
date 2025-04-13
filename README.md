@@ -134,4 +134,13 @@ Run the container:
 ```bash
 docker run -p 8080:8080 receipt-processor
 ```
+### Sample Input & Output
+
+## Service running in a local terminal
+
+<img width="646" alt="Screenshot 2025-04-13 at 4 45 06 PM" src="https://github.com/user-attachments/assets/a0275114-75b1-4302-9985-909987935b73" />
+
+## API Outputs
+
+<img width="723" alt="Screenshot 2025-04-13 at 4 44 23 PM" src="https://github.com/user-attachments/assets/ac270666-4c3f-40cc-9ecd-46ab5dba6b80" />
 
